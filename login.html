@@ -1,0 +1,168 @@
+
+
+<!--
+PROJETO TOTALMENTE ESTUDANTIL FEITO APENAS COMO EXERCICIO
+# 
+#INFORMAÇÕES UTIES: O site utiliza o metodo de verificação Auth para ver se o usuario tem permissão para acessar o site index.html!
+#Utilize a config da sua FIREBASE para conseguir utilizar o site normalmente
+#ESSE CODIGO É UM PROJETO ESTUDANTIL FEITO APENAS COMO EXERCICIO
+#POR FAVOR CASO FOR UTILIZAR O CODIGO PARA APRIMORA-LO OU ALGO DO TIPO CRIE UMA COPIA DELE(DEIXE O ARQUIVO ORIGINAL COMPLETO)
+#DESENVOLVIDO POR John 1 TDS "A" ESCOLA TECNICA ESTADUAL DE PALMARES
+# DATA DE CRIAÇÃO: 04/05/2024
+# DATA DA ULTIMA MODIFICAÇÃO: 18/05/2024
+# OUTROS PROJETOS EM: https://github.com/JohnJohn081
+# ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄       ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄   ▄▄▄▄▄▄▄▄▄▄▄ 
+#▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌     ▐░░░░░░░░░░░▌▐░░░░░░░░░░▌ ▐░░░░░░░░░░░▌
+#▐░█▀▀▀▀▀▀▀▀▀  ▀▀▀▀█░█▀▀▀▀ ▐░█▀▀▀▀▀▀▀▀▀       ▀▀▀▀█░█▀▀▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀ 
+#▐░▌               ▐░▌     ▐░▌                    ▐░▌     ▐░▌       ▐░▌▐░▌          
+#▐░█▄▄▄▄▄▄▄▄▄      ▐░▌     ▐░█▄▄▄▄▄▄▄▄▄           ▐░▌     ▐░▌       ▐░▌▐░█▄▄▄▄▄▄▄▄▄ 
+#▐░░░░░░░░░░░▌     ▐░▌     ▐░░░░░░░░░░░▌          ▐░▌     ▐░▌       ▐░▌▐░░░░░░░░░░░▌
+#▐░█▀▀▀▀▀▀▀▀▀      ▐░▌     ▐░█▀▀▀▀▀▀▀▀▀           ▐░▌     ▐░▌       ▐░▌ ▀▀▀▀▀▀▀▀▀█░▌
+#▐░▌               ▐░▌     ▐░▌                    ▐░▌     ▐░▌       ▐░▌          ▐░▌
+#▐░█▄▄▄▄▄▄▄▄▄      ▐░▌     ▐░█▄▄▄▄▄▄▄▄▄           ▐░▌     ▐░█▄▄▄▄▄▄▄█░▌ ▄▄▄▄▄▄▄▄▄█░▌
+#▐░░░░░░░░░░░▌     ▐░▌     ▐░░░░░░░░░░░▌          ▐░▌     ▐░░░░░░░░░░▌ ▐░░░░░░░░░░░▌
+# ▀▀▀▀▀▀▀▀▀▀▀       ▀       ▀▀▀▀▀▀▀▀▀▀▀            ▀       ▀▀▀▀▀▀▀▀▀▀   ▀▀▀▀▀▀▀▀▀▀▀  
+
+-->
+
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" href="/imagem/icone.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>ATV GERENCE</title>
+</head>
+
+<body>
+
+    <div class="login-container">
+        <h2>Login</h2>
+        <form>
+            <input type="text" id="username" name="username" placeholder="Nome de Usuário" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" name="password" placeholder="Senha" required>
+            <input type="password" id="loginpassword" name="login-password" placeholder="Senha de Login" required>
+            <button id="registrar-btn">registrar</button>
+            <button id="login-btn">login</button>
+        </form>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+        import { getDatabase, ref, push, onValue, set, get } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+
+
+        const firebaseConfig = {
+          apiKey: "",
+          authDomain: "",
+          projectId: "",
+          storageBucket: "",
+          messagingSenderId: "", // sua config aqui
+          appId: ""
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        document.addEventListener('DOMContentLoaded', () => {
+          document.getElementById('registrar-btn').addEventListener('click', registrar);
+          document.getElementById('login-btn').addEventListener('click', login);
+        });
+
+        function registrar(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const novoElemento = ref(db, 'users/' + username);
+            get(novoElemento).then((snapshot) => {
+                if (snapshot.exists()) {
+                    alert('Usuario Existente')
+                }
+                else{
+                    if (password.length >= 6){
+                    set(novoElemento, {
+                        username: username,
+                        email: email,
+                        password: password,
+                    })
+                    .then(() => {
+                        const auth = getAuth();
+                        createUserWithEmailAndPassword(auth, email, password)
+                        alert("Usuário registrado com sucesso!");
+                    })
+                    .catch((error) => {
+                        console.error("Erro ao registrar usuário:", error);
+                        alert("Erro ao registrar usuário. Tente novamente mais tarde.");
+                    });
+                    }
+                    else{
+                        alert('Senha deve conter pelo menos 6 caracteres!')
+                    }
+                }  
+                }    
+              )}
+
+
+        function login(event) {
+            event.preventDefault();
+
+            const mail = document.getElementById('email').value.trim();
+            const loginPassword = document.getElementById('loginpassword').value.trim();
+            if (!mail || !loginPassword) {
+                alert("Por favor, preencha todos os campos.");
+                return;
+            }
+            else{
+            const auth = getAuth();
+            signInWithEmailAndPassword(auth, mail, loginPassword)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                window.location.href = 'index.html';
+                alert('Login realizado com sucesso!!')
+            }).catch((error) => {
+                alert('Email ou senha incorreto!!')
+                const errorCode = error.code;
+                const errorMessage = error.message;
+            });
+            }
+        }
+            /* Login com banco de dados (não está 100% e não foi verificado, utilize o metodo Auth do FIREBASE!!!)
+            if (!user || !loginPassword) {
+                alert("Por favor, preencha todos os campos.");
+                return;
+            }
+
+            const dbRef = ref(db, 'users/' + user);
+
+            get(dbRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const userData = snapshot.val();
+                    const storedPassword = userData.password;
+
+                    if (storedPassword === loginPassword) {
+                        alert("Login bem-sucedido!");
+                        window.location.href = 'index.html';
+                    } else {
+                        alert("Senha inválida. Tente novamente.");
+                    }
+                } else {
+                    alert("Usuário não encontrado. Tente novamente.");
+                }
+            }).catch((error) => {
+                console.error(error);
+                alert("Erro ao realizar login. Tente novamente.");
+            });
+        } */
+            
+    </script>
+</body>
+
+</html>

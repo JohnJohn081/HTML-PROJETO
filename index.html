@@ -1,0 +1,111 @@
+
+
+<!--
+PROJETO TOTALMENTE ESTUDANTIL FEITO APENAS COMO EXERCICIO
+# 
+#INFORMAÇÕES UTIES: O site utiliza o metodo de verificação Auth para ver se o usuario tem permissão para acessar o site index.html!
+#Utilize a config da sua FIREBASE para conseguir utilizar o site normalmente
+#ESSE CODIGO É UM PROJETO ESTUDANTIL FEITO APENAS COMO EXERCICIO
+#POR FAVOR CASO FOR UTILIZAR O CODIGO PARA APRIMORA-LO OU ALGO DO TIPO CRIE UMA COPIA DELE(DEIXE O ARQUIVO ORIGINAL COMPLETO)
+#DESENVOLVIDO POR John 1 TDS "A" ESCOLA TECNICA ESTADUAL DE PALMARES
+# DATA DE CRIAÇÃO: 04/05/2024
+# DATA DA ULTIMA MODIFICAÇÃO: 18/05/2024
+# OUTROS PROJETOS EM: https://github.com/JohnJohn081
+# ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄       ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄   ▄▄▄▄▄▄▄▄▄▄▄ 
+#▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌     ▐░░░░░░░░░░░▌▐░░░░░░░░░░▌ ▐░░░░░░░░░░░▌
+#▐░█▀▀▀▀▀▀▀▀▀  ▀▀▀▀█░█▀▀▀▀ ▐░█▀▀▀▀▀▀▀▀▀       ▀▀▀▀█░█▀▀▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀ 
+#▐░▌               ▐░▌     ▐░▌                    ▐░▌     ▐░▌       ▐░▌▐░▌          
+#▐░█▄▄▄▄▄▄▄▄▄      ▐░▌     ▐░█▄▄▄▄▄▄▄▄▄           ▐░▌     ▐░▌       ▐░▌▐░█▄▄▄▄▄▄▄▄▄ 
+#▐░░░░░░░░░░░▌     ▐░▌     ▐░░░░░░░░░░░▌          ▐░▌     ▐░▌       ▐░▌▐░░░░░░░░░░░▌
+#▐░█▀▀▀▀▀▀▀▀▀      ▐░▌     ▐░█▀▀▀▀▀▀▀▀▀           ▐░▌     ▐░▌       ▐░▌ ▀▀▀▀▀▀▀▀▀█░▌
+#▐░▌               ▐░▌     ▐░▌                    ▐░▌     ▐░▌       ▐░▌          ▐░▌
+#▐░█▄▄▄▄▄▄▄▄▄      ▐░▌     ▐░█▄▄▄▄▄▄▄▄▄           ▐░▌     ▐░█▄▄▄▄▄▄▄█░▌ ▄▄▄▄▄▄▄▄▄█░▌
+#▐░░░░░░░░░░░▌     ▐░▌     ▐░░░░░░░░░░░▌          ▐░▌     ▐░░░░░░░░░░▌ ▐░░░░░░░░░░░▌
+# ▀▀▀▀▀▀▀▀▀▀▀       ▀       ▀▀▀▀▀▀▀▀▀▀▀            ▀       ▀▀▀▀▀▀▀▀▀▀   ▀▀▀▀▀▀▀▀▀▀▀  
+
+-->
+
+
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" href="/imagem/icone.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilo.css">
+    <title>Gerenciador de Atividades</title>
+</head>
+
+<body>
+    <h2>GERENCIE SUAS ATIVIDADES</h2>
+    <div class="container">
+        <img src="/imagem/perfil.png" alt="imagem do perfil">
+        <div class="perfil-info">
+            <h3>Usuário: ADMIN</h3> 
+            <button id="deslogar-btn">deslogar</button>
+        </div>
+    </div>
+    <div class="painel-atividades">
+        <h3>PAINEL DE ATIVIDADES</h3>
+    </div>
+    <div class="adicionar-atividade">
+        <h3>ADICIONAR ATIVIDADE</h3>
+        <form id="form-adicionar-atividade">
+            <input type="text" id="titulo" name="titulo" placeholder="Título da Atividade" required>
+            <textarea id="descricao" name="descricao" placeholder="Descrição da Atividade" required></textarea>
+            <input type="date" id="data-fim-prevista" name="data-fim-prevista" placeholder="Data Prevista de Conclusão" required>
+
+            <button id="adicionarAtividade-btn">Adicionar</button>
+        </form>
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+        
+        const firebaseConfig = {
+            apiKey: "",
+          authDomain: "",
+          projectId: "",
+          storageBucket: "",
+          messagingSenderId: "", // sua config aqui
+          appId: ""
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+
+        document.addEventListener('DOMContentLoaded', () => {
+          document.getElementById('deslogar-btn').addEventListener('click', deslogar);
+          document.getElementById('adicionarAtividade-btn').addEventListener('click', adicionarAtividade);
+
+        });
+        
+        function batata(){
+         auth.onAuthStateChanged(user =>{
+            if (!user){
+                window.location.href = 'login.html';
+            }
+        })
+        }
+        batata();
+        
+        var telaExibindo = false;
+
+        function deslogar() {
+            auth.signOut().then(() => {
+                window.location.href = 'login.html'
+            }).catch(() => {
+                alert('erro ao deslogar')
+            })
+        }
+
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>
+</body>
+
+</html>

@@ -1,0 +1,208 @@
+        
+        h2 {
+            text-align: center;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            border: solid rgb(0, 42, 255);
+            padding: 12px;
+            border-radius: 20px;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        
+        h2 {
+            margin-top: 0;
+        }
+        
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid black;
+            border-radius: 20px;
+            max-width: 250px;
+            margin-left: auto;
+            padding: 5px;
+        }
+        
+        img {
+            width: 100px;
+            height: auto;
+        }
+        
+        .perfil-info {
+            margin-left: 10px;
+        }
+        
+        .perfil-info h3 {
+            margin: 5px 0;
+        }
+        
+        .deslogar {
+            margin-top: 10px;
+        }
+        
+        .painel-atividades {
+            position: absolute;
+            top: 70px;
+            left: 10px;
+            width: 250px;
+            height: 50vh;
+            background-color: #f0f0f0;
+            border: 3px solid black;
+            border-radius: 20px;
+            padding: 20px;
+        }
+        
+        .painel-atividades {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px;
+        }
+        
+        .painel-atividades h3 {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .adicionar-atividade {
+            position: absolute;
+            top: 70px;
+            left: 510px;
+            width: 250px;
+            height: 50vh;
+            background-color: #f0f0f0;
+            border: 3px solid black;
+            border-radius: 20px;
+            padding: 20px;
+        }
+        
+        .adicionar-atividade {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px;
+        }
+        
+        .adicionar-atividade h3 {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        
+        .adicionar-atividade form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        
+        .adicionar-atividade form input[type="text"],
+        .adicionar-atividade form textarea {
+            width: 100%;
+            margin-bottom: 30px;
+            padding: 30px;
+            font-size: 22px;
+        }
+        
+        .adicionar-atividade form input[type="date"] {
+            width: 100%;
+            margin-bottom: 4px;
+            padding: 10px;
+            font-size: 18px;
+        }
+        
+        .adicionar-atividade form button {
+            width: 100%;
+            font-size: 19px;
+            padding: 15px;
+        }
+        
+        .painel-atividades {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+        
+        .atividade {
+            border: 2px solid black;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .atividade p {
+            max-height: 100px;
+            overflow-y: auto;
+        }
+        
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            /* Fundo escuro */
+            width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            border: 2px solid blue;
+            border-radius: 10px;
+            padding: 20px;
+            box-sizing: border-box;
+            color: white;
+            z-index: 999;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 24px;
+            color: white;
+        }
+
+        
+        .atividade-titulo {
+            cursor: pointer;
+        }
+        
+        
+        button {
+            padding: 1.0em 2.5em;
+            font-size: 8px;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            font-weight: 500;
+            color: #000;
+            background-color: #fff;
+            border: none;
+            border-radius: 45px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            outline: none;
+          }
+          
+          button:hover {
+            background-color: #1d5dc3;
+            box-shadow: 0px 15px 20px rgba(46, 107, 229, 0.4);
+            color: #fff;
+            transform: translateY(-4px);
+          }
+          
+          button:active {
+            transform: translateY(-1px);
+          }
